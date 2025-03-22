@@ -11,6 +11,7 @@
         dest: "/tmp/Deployment-script"
         clone: yes
         update: yes
+        force: yes
 
     - name: Changing permission to run script
       command: sudo chmod 700 /tmp/Deployment-script/docker.sh
