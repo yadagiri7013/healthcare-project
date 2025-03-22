@@ -1,7 +1,6 @@
 - name: Configure Docker on EC2 Instances
   hosts: all
   become: true
-  connection: ssh
   tasks:
     - name: Updating apt
       command: sudo apt-get update
@@ -12,12 +11,9 @@
         dest: "/tmp/Deployment-script"
         clone: yes
         update: yes
-        
-    - name: going to Deployment-script dir
-      command: cd /tmp/Deployment-script 
-      
+
     - name: Changing permission to run script
-      command: sudo chmod 700 *.sh
+      command: sudo chmod 700 /tmp/Deployment-script/*.sh
       become: yes
       become_user: root
 
@@ -26,23 +22,22 @@
       become: yes
 
     - name: Start Docker Service
-      command: sudo systemctl start docker
-      become: yes
-      become_user: root
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
 
-
-
-- name: running k8s cluster
+- name: Running Kubernetes Cluster
   hosts: localhost
   become: true
-  connection: ssh
+  tasks:
     - name: Clone the Healthcare Project Repository
       git:
         repo: "https://github.com/Balunideepak/healthcare-project.git"
         dest: "/tmp/healthcare-project"
         clone: yes
         update: yes
-        
+
     - name: Apply Kubernetes manifests
       command: kubectl apply -f /tmp/healthcare-project/deployment.yaml
       register: k8s_output
