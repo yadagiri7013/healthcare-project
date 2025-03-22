@@ -31,7 +31,7 @@
       become_user: root
 
 
----
+
 - name: running k8s cluster
   hosts: localhost
   become: true
