@@ -6,36 +6,46 @@
   - name: updating apt
     command : sudo apt-get update
 
-  - name: Clone the GitHub repository
-    git:
-     repo: "https://github.com/Balunideepak/Deployment-script.git
-     dest: "/tmp/Deployment-script"
-     clone: yes
-     update: yes
+  - name: Configure Docker on EC2 Instances
+  hosts: all
+  become: true
+  connection: ssh
+  tasks:
+    - name: Updating apt
+      command: sudo apt-get update
 
-  - name : changing permision to run script
-    command : sudo chmod 700 *.sh 
-    become : yes
-    become_user : root
+    - name: Clone the GitHub repository
+      git:
+        repo: "https://github.com/Balunideepak/Deployment-script.git"
+        dest: "/tmp/Deployment-script"
+        clone: yes
+        update: yes
 
-  - name : running docker script to install docker
-    command : ./docker.sh
-    become : yes
+    - name: Changing permission to run script
+      command: sudo chmod 700 /tmp/Deployment-script/*.sh
+      become: yes
+      become_user: root
 
-  - name : Start Docker Service
-    command : sudo systemctl start docker
-    become : yes
-    become_user : root
-- name: Clone the GitHub repository
-  git:
-   repo: "https://github.com/Balunideepak/healthcare-project.git"
-   dest: "/tmp/healthcare-project"
-   clone: yes
-   update: yes
-- name: Apply Kubernetes manifests
-   command: kubectl apply -f /tmp/healthcare-project/deployment.yaml
-   register: k8s_output
+    - name: Running Docker script to install Docker
+      command: /tmp/Deployment-script/docker.sh
+      become: yes
 
-- name: Display kubectl apply output
-   debug:
-   var: k8s_output.stdout_lines
+    - name: Start Docker Service
+      command: sudo systemctl start docker
+      become: yes
+      become_user: root
+
+    - name: Clone the Healthcare Project Repository
+      git:
+        repo: "https://github.com/Balunideepak/healthcare-project.git"
+        dest: "/tmp/healthcare-project"
+        clone: yes
+        update: yes
+
+    - name: Apply Kubernetes manifests
+      command: kubectl apply -f /tmp/healthcare-project/deployment.yaml
+      register: k8s_output
+
+    - name: Display kubectl apply output
+      debug:
+        var: k8s_output.stdout_lines
