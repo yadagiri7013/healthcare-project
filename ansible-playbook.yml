@@ -30,13 +30,19 @@
       become: yes
       become_user: root
 
+
+---
+- name: running k8s cluster
+  hosts: localhost
+  become: true
+  connection: ssh
     - name: Clone the Healthcare Project Repository
       git:
         repo: "https://github.com/Balunideepak/healthcare-project.git"
         dest: "/tmp/healthcare-project"
         clone: yes
         update: yes
-
+        
     - name: Apply Kubernetes manifests
       command: kubectl apply -f /tmp/healthcare-project/deployment.yaml
       register: k8s_output
