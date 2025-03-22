@@ -6,10 +6,21 @@
   - name: updating apt
     command : sudo apt-get update
 
-  - name : Install Docker
-    command : sudo apt-get install -y docker.io
+  - name: Clone the GitHub repository
+    git:
+     repo: "https://github.com/Balunideepak/Deployment-script.git
+     dest: "/tmp/Deployment-script"
+     clone: yes
+     update: yes
+
+  - name : changing permision to run script
+    command : sudo chmod 700 *.sh 
     become : yes
     become_user : root
+
+  - name : running docker script to install docker
+    command : ./docker.sh
+    become : yes
 
   - name : Start Docker Service
     command : sudo systemctl start docker
