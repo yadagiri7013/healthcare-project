@@ -12,9 +12,12 @@
         dest: "/tmp/Deployment-script"
         clone: yes
         update: yes
-
+        
+    - name: going to Deployment-script dir
+      command: cd /tmp/Deployment-script 
+      
     - name: Changing permission to run script
-      command: sudo chmod 700 /tmp/Deployment-script/*.sh
+      command: sudo chmod 700 *.sh
       become: yes
       become_user: root
 
