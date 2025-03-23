@@ -3,8 +3,9 @@ install all the required packesgs
 - anisble = https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-ubuntu-20-04
 - k8s = https://github.com/Balunideepak/Deployment-script.git
 - jenkins = https://github.com/Balunideepak/Deployment-script.git
-  ===========================
-  
+- Set the environment varibale in ~/.bashrc file after updation restart restart "source ~/.bashrc" file 
+- give Jenking permission to access docker  :  usermod -aG docker jenkins
+- update visudo file to all jenking to bypass password "jenkins ALL=(ALL:ALL) NOPASSWD: ALL" 
 _________________________________________________________________________________________________________________________________
   After login in Jenkins :
 ___________________________________________________________________________________________
@@ -16,7 +17,8 @@ Add credintials :-
  - the environment variable you set in ec2 machine.
  - like JAVA_HOME, M2_HOME , ANSIBLE
 ____________________________________________________________________________________________________
-* install plugins : docker, pipeline, prometheus,html publisher, 
+* install plugins : docker, pipeline, prometheus,html publisher,
+* restart the jenkins : service jenkins restart
 ________________________________________________________________________________________________
 * build item :-
     - slelect git  --> add repository https://github.com/Balunideepak/healthcare-project.git   --> select deepjenkinsfile --> save --> build now.
