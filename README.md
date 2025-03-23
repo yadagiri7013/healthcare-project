@@ -25,3 +25,5 @@ ________________________________________________________________________________
   - kubectkl get pods -o wide
   - kubectl  get svc -o wide
 ______________________________________________________________________________________
+* copy the <Public IP of the node machine: NodePort no which you got in "kubectl  get svc -o wide" command> and see you websit is working.
+______________________________________________________________________________________________________________________________A  
