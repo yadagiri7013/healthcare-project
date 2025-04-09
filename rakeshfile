@@ -43,7 +43,7 @@ tools{
                }
      stage('Push the Docker image') {
       steps {
-        sh 'docker push yadagiri/healthcare:latest'
+        sh 'docker push yadagiri14/healthcare:latest'
                                 }
             }
       stage('Ansible Playbook') {
