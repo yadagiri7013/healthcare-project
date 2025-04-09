@@ -1,5 +1,5 @@
 - name: Running Kubernetes Cluster
-  hosts: localhost
+  hosts: all
   become: true
   tasks:
     - name: Clone the Healthcare Project Repository
